@@ -5,7 +5,7 @@ FROM rocker/r-ver
 RUN mkdir /home/r-environment
 
 # Install R dependencies
-RUN R -e "install.packages(c('dplyr', 'gapminder'))"
+RUN R -e "install.packages(c('dplyr', 'gapminder','aws.s3'))"
 
 # Copy our R script to the container
 COPY script.R /home/r-environment/script.R
