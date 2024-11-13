@@ -33,11 +33,12 @@ put_object(
   object = "eu_stats.csv",
   bucket = "pei-test-bucket"
 )
-cat("AWS Access Key:", Sys.getenv("AWS_ACCESS_KEY_ID"), "\n")
-cat("AWS Session Token:", Sys.getenv("AWS_SESSION_TOKEN"), "\n")
+# cat("AWS Access Key:", Sys.getenv("AWS_ACCESS_KEY_ID"), "\n")
+# cat("AWS Session Token:", Sys.getenv("AWS_SESSION_TOKEN"), "\n")
 # Optional: Check if the upload was successful
 if (object_exists(object_key, bucket_name)) {
   message("File successfully uploaded to S3!")
 } else {
   message("Failed to upload the file.")
 }
+q("no") 
