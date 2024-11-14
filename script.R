@@ -29,9 +29,9 @@ object_key <- "eu_stats.csv"  # or specify a folder, e.g., "data/eu_stats.csv"
 
 # S3 upload without specifying credentials manually
 put_object(
-  file = "eu_stats.csv",
-  object = "eu_stats.csv",
-  bucket = "pei-test-bucket"
+  file = temp_file,
+  object = object_key,
+  bucket = bucket_name
 )
 # cat("AWS Access Key:", Sys.getenv("AWS_ACCESS_KEY_ID"), "\n")
 # cat("AWS Session Token:", Sys.getenv("AWS_SESSION_TOKEN"), "\n")
