@@ -1,14 +1,25 @@
-# Base R image
-FROM rocker/r-ver
+# Base image
+FROM rocker/r-ver:4.3.0
 
-# Make a directory in the container
-RUN mkdir /home/r-environment
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev
 
-# Install R dependencies
-RUN R -e "install.packages(c('dplyr', 'gapminder','aws.s3'))"
+# Install R packages
+RUN R -e "install.packages(c('tidyverse', 'here', 'rentrez', 'aws.s3', 'XML'), repos='https://cloud.r-project.org/')"
 
-# Copy our R script to the container
-COPY script.R /home/r-environment/script.R
+# Set the working directory
+WORKDIR /usr/src/app
+
+# Copy the R script to the container
+COPY code/1_querying_api.R /usr/src/app/1_querying_api.R
+
+# Set environment variables for AWS
+ENV AWS_ACCESS_KEY_ID=<your_access_key>
+ENV AWS_SECRET_ACCESS_KEY=<your_secret_key>
+ENV AWS_DEFAULT_REGION=<your_region>
 
 # Run the R script
-CMD R -e "source('/home/r-environment/script.R')"
+CMD ["Rscript", "/usr/src/app/1_querying_api.R"]
