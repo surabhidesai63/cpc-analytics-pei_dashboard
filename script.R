@@ -35,7 +35,7 @@ put_object(
 
 # Optional: Check if the upload was successful
 if (object_exists(object_key, bucket_name)) {
-  message("File successfully uploaded to S3!")
+  message("File successfully uploaded to S3*****!")
 } else {
   message("Failed to upload the file.")
 }
