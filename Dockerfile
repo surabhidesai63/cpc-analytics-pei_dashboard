@@ -8,8 +8,10 @@ RUN apt-get update -qq && apt-get install -y \
     libxml2-dev \
     && apt-get clean
 
-# Install required R packages
-RUN R -e "install.packages(c('tidyverse', 'here', 'rentrez'), repos='http://cran.rstudio.com/')"
+# Install R packages one by one
+RUN R -e "install.packages('tidyverse', repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages('here', repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages('rentrez', repos='http://cran.rstudio.com/')"
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -17,10 +19,10 @@ WORKDIR /usr/src/app
 # Copy the R script to the container
 COPY code/1_querying_api.R /usr/src/app/1_querying_api.R
 
-# # Set environment variables for AWS (if using S3 access)
-# ENV AWS_ACCESS_KEY_ID=your_access_key
-# ENV AWS_SECRET_ACCESS_KEY=your_secret_key
-# ENV AWS_DEFAULT_REGION=your_region
+# Set environment variables for AWS (if using S3 access)
+ENV AWS_ACCESS_KEY_ID=your_access_key
+ENV AWS_SECRET_ACCESS_KEY=your_secret_key
+ENV AWS_DEFAULT_REGION=your_region
 
 # Run the R script
 CMD ["Rscript", "/usr/src/app/1_querying_api.R"]
