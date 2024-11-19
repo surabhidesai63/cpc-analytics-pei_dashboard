@@ -9,7 +9,7 @@ RUN apt-get update -qq && apt-get install -y \
     && apt-get clean
 
 # Install R packages one by one
-RUN R -e "install.packages('tidyverse', repos='http://cran.rstudio.com/')"
+RUN R -e "install.packages('XML', repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('here', repos='http://cran.rstudio.com/')"
 RUN R -e "install.packages('rentrez', repos='http://cran.rstudio.com/')"
 
