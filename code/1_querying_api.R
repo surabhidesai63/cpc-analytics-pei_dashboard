@@ -1,9 +1,9 @@
 # packages, directory -------------------------------------------------------
 # libraries
-library(tidyverse) # tools for data manipulation
 library(here) # easily manage directories
 library(rentrez) # direct access to NCBI/ PubMed database
 library(aws.s3) # for S3 operations
+library(XML) # parsing XML
 
 # set working parameters --------------------------------------------------------
 
@@ -20,47 +20,11 @@ s3_bucket <- "your-s3-bucket-name"
 s3_folder <- "data/raw/1_pubmed_xml_responses/"
 
 # Define query terms -----------------------------------------------------------
-query_terms <- '("health emergency"[Title/Abstract] 
-  OR "health emergencies"[Title/Abstract] 
-  OR "outbreak"[Title/Abstract] 
-  OR "epidemic"[Title/Abstract]) 
-  AND ("public health intelligence"[Title/Abstract] 
-  OR "epidemic intelligence"[Title/Abstract] 
-  OR "participatory surveillance"[Title/Abstract] 
-  OR "syndromic surveillance"[Title/Abstract] 
-  OR "event based surveillance"[Title/Abstract] 
-  OR "integrated disease surveillance"[Title/Abstract] 
-  OR "community based surveillance"[Title/Abstract]
-  OR "behavioural surveillance"[Title/Abstract] 
-  OR "behavioral surveillance"[Title/Abstract]
-  OR "wastewater surveillance"[Title/Abstract] 
-  OR "vector surveillance"[Title/Abstract] 
-  OR "sentinel surveillance"[Title/Abstract] 
-  OR "wildlife surveillance"[Title/Abstract] 
-  OR "early warning system"[Title/Abstract] 
-  OR "environmental monitoring"[Title/Abstract] 
-  OR "modeling"[Title/Abstract] 
-  OR "modelling"[Title/Abstract] 
-  OR "mathematical epidemiology"[Title/Abstract] 
-  OR "big data"[Title/Abstract] 
-  OR "Artificial intelligence"[Title/Abstract] 
-  OR "machine learning"[Title/Abstract] 
-  OR "Genomic surveillance"[Title/Abstract] 
-  OR "bioinformatics"[Title/Abstract] 
-  OR "Simulator"[Title/Abstract] 
-  OR "Simulation"[Title/Abstract] 
-  OR "Decision support system"[Title/Abstract] 
-  OR "digital twin"[Title/Abstract] 
-  OR "natural language processing"[Title/Abstract] 
-  OR "forecast*"[Title/Abstract] 
-  OR "open source"[Title/Abstract] 
-  OR "geospatial"[Title/Abstract] 
-  OR "GIS"[Title/Abstract] 
-  OR "internet search"[Title/Abstract])'
+query_terms <- '("health emergency"[Title/Abstract])' ###
 
 # FUNCTION: Concatenate date range with flexibility for iteration ---------------
 format_year_for_query <- function(year) {
-  paste0('(" ', year, '/01/01"[Date - Publication] : " ', year, '/12/30"[Date - Publication])')
+  paste0('(" ', year, '/01/01"[Date - Publication] : " ', year, '/01/01"[Date - Publication])') ###
 }
 
 # FUNCTION: Fetch records and save to S3 ---------------------------------------
@@ -81,10 +45,10 @@ fetch_pubmed_records <- function(year, query_terms) {
   # Fetch records
   records <- entrez_fetch(db = "pubmed",
                           web_history = query_search$web_history,
-                          retmax = 20000,
+                          retmax = 20, ###
                           rettype = "xml",
                           parsed = TRUE)
-
+  
   # Define file name for S3
   s3_file_name <- paste0(s3_folder, "query_results_", year, ".xml")
   
@@ -102,7 +66,7 @@ fetch_pubmed_records <- function(year, query_terms) {
 }
 
 # USAGE ------------------------------------------------------------------------
-years_list <- as.character(2009:2024)
+years_list <- as.character(2021) ###
 
 # Loop over the function and fetch all records for all years
 for (year in years_list) {
