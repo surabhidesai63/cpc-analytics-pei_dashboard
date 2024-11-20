@@ -1,12 +1,12 @@
 # Use an official R image as the base image
 FROM rocker/r-ver:4.3.0
 
-# # Install system dependencies
-# RUN apt-get update -qq && apt-get install -y \
-#     libcurl4-openssl-dev \
-#     libssl-dev \
-#     libxml2-dev \
-#     && apt-get clean
+# Install system dependencies
+RUN apt-get update -qq && apt-get install -y \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    && apt-get clean
 
 # Install R packages one by one
 RUN R -e "install.packages('XML', repos='http://cran.rstudio.com/')"
