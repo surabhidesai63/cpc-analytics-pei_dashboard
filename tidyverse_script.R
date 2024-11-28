@@ -21,8 +21,8 @@ print(summary_data)
 # Set up AWS credentials using environment variables
 # Ensure AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_DEFAULT_REGION are set in your environment.
 
-bucket_name <- "your-s3-bucket-name"
-object_key <- "output/summary_data.csv"
+bucket_name <- "pei-test-bucket"
+object_key <- "summary_data.csv"
 
 # Convert the data frame to a CSV
 temp_file <- tempfile(fileext = ".csv")
