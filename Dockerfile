@@ -1,19 +1,21 @@
-# Use the official R base image
-FROM rocker/r-ver:4.3.1
+# Use an official R image as the base
+FROM rocker/r-ver:4.3.0
 
-# Install necessary packages
-RUN R -e "install.packages(c('tidyverse', 'aws.s3'), repos='http://cran.r-project.org')"
+# Install system dependencies
+RUN apt-get update -qq && apt-get install -y \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    && apt-get clean
 
-# Copy the R script into the container
-COPY tidyverse_script.R /app/tidyverse_script.R
+# Install tidyverse
+RUN Rscript -e "install.packages('tidyverse', repos='https://cloud.r-project.org/')"
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Set environment variables for AWS credentials
-ENV AWS_ACCESS_KEY_ID=AKIA2MNVLVYL5LXUW27A
-ENV AWS_SECRET_ACCESS_KEY=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
-ENV AWS_DEFAULT_REGION=us-east-1
+# Copy the R script
+COPY code/1_querying_api.R /usr/src/app/1_querying_api.R
 
-# Run the R script
-CMD ["Rscript", "tidyverse_script.R"]
+# Command to run the script
+CMD ["Rscript", "/usr/src/app/1_querying_api.R"]
