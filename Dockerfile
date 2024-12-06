@@ -3,6 +3,7 @@ FROM rocker/r-ver:4.3.0
 
 # Install system dependencies
 RUN apt-get update -qq && apt-get install -y \
+    git \
     libcurl4-openssl-dev \
     libssl-dev \
     libxml2-dev \
