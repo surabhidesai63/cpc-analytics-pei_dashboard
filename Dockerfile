@@ -21,4 +21,4 @@ WORKDIR /usr/src/app
 COPY code/1_querying_api.R /usr/src/app/1_querying_api.R
 
 # Command to run the script
-CMD ["Rscript", "/usr/src/app/1_querying_api.R"]
+CMD ["Rscript", "code/1_querying_api.R"]
