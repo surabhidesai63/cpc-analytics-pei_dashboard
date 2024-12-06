@@ -17,7 +17,7 @@ set_entrez_key(api_key)
 # AWS S3 configuration ---------------------------------------------------------
 # Replace with your S3 bucket details
 s3_bucket <- "peitestbucket"
-s3_folder <- "raw/1_pubmed_xml_responses/"
+s3_folder <- "1_pubmed_xml_responses/"
 
 # Define query terms -----------------------------------------------------------
 query_terms <- '("health emergency"[Title/Abstract])' ###
