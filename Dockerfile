@@ -14,6 +14,9 @@ RUN Rscript -e "install.packages('tidyverse', repos='https://cloud.r-project.org
 RUN Rscript -e "install.packages(c('rentrez','here','aws.s3'), repos='https://cloud.r-project.org/')"
 
 
+# Clone the GitHub repository
+RUN git clone https://github.com/surabhidesai63/cpc-analytics-pei_dashboard.git /usr/src/app
+
 # Set the working directory
 WORKDIR /usr/src/app
 
