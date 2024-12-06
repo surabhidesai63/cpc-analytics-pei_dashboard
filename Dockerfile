@@ -11,6 +11,9 @@ RUN apt-get update -qq && apt-get install -y \
 # Install tidyverse
 RUN Rscript -e "install.packages('tidyverse', repos='https://cloud.r-project.org/')"
 
+RUN Rscript -e "install.packages(c('rentrez','here','aws.s3'), repos='https://cloud.r-project.org/')"
+
+
 # Set the working directory
 WORKDIR /usr/src/app
 
