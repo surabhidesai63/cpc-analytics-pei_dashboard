@@ -72,3 +72,6 @@ years_list <- as.character(2021) ###
 for (year in years_list) {
   fetch_pubmed_records(year, query_terms)
 }
+
+# Clean up
+unlink(temp_file)  # Deletes the temporary file
