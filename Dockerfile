@@ -1,5 +1,5 @@
 FROM rocker/r-ver:4.3.0
-RUN apt-get update -qq && apt-get install -y wget && wget https://cloud.r-project.org/
+
 # Install system dependencies
 RUN apt-get update -qq && apt-get install -y \
     git \
