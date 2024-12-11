@@ -3,12 +3,16 @@ FROM rocker/r-ver:4.3.0
 # Install system dependencies
 RUN apt-get update -qq && apt-get install -y \
     git \
-    libxml2-dev \
+      libxml2-dev \
     libcurl4-openssl-dev \
     libssl-dev \
     libfontconfig1-dev \
     libharfbuzz-dev \
     libfribidi-dev \
+    libfreetype6-dev \
+    libpng-dev \
+    libtiff5-dev \
+    libjpeg-dev \
     && apt-get clean
 
 # Install tidyverse with verbose output
