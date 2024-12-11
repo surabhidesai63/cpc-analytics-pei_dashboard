@@ -1,21 +1,20 @@
-# Use an official R image as the base
 FROM rocker/r-ver:4.3.0
 
 # Install system dependencies
 RUN apt-get update -qq && apt-get install -y \
-    git \
+    libxml2-dev \
     libcurl4-openssl-dev \
     libssl-dev \
-    libxml2-dev \
+    libfontconfig1-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
     && apt-get clean
 
-# Install tidyverse
-RUN Rscript -e "install.packages('tidyverse', repos='https://cloud.r-project.org/')"
+# Install tidyverse with verbose output
+RUN Rscript -e "install.packages('tidyverse', repos='https://cran.rstudio.com/', dependencies = TRUE)"
 
-RUN Rscript -e "install.packages(c('rentrez','here','aws.s3'), repos='https://cloud.r-project.org/')"
-
-#Check if 'tidyverse' installed
-RUN Rscript -e "if (!requireNamespace('tidyverse', quietly = TRUE)) stop('tidyverse not installed')"
+# Install additional R packages
+RUN Rscript -e "install.packages(c('rentrez','here','aws.s3'), repos='https://cran.rstudio.com/')"
 
 # Clone the GitHub repository
 RUN git clone https://github.com/surabhidesai63/cpc-analytics-pei_dashboard.git /usr/src/app
