@@ -14,6 +14,8 @@ RUN Rscript -e "install.packages('tidyverse', repos='https://cloud.r-project.org
 
 RUN Rscript -e "install.packages(c('rentrez','here','aws.s3'), repos='https://cloud.r-project.org/')"
 
+#Check if 'tidyverse' installed
+RUN Rscript -e "if (!requireNamespace('tidyverse', quietly = TRUE)) stop('tidyverse not installed')"
 
 # Clone the GitHub repository
 RUN git clone https://github.com/surabhidesai63/cpc-analytics-pei_dashboard.git /usr/src/app
