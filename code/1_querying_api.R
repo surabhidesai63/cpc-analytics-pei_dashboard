@@ -4,6 +4,8 @@
 library(tidyverse) # tools for data manipulation
 library(here) # easily manage directories
 library(rentrez) # direct access to NCBI/ PubMed database
+library(aws.s3) 
+library(XML) 
 
 # set working parameters --------------------------------------------------------
 
@@ -14,7 +16,10 @@ here::i_am("code/1_querying_api.R")
 api_key <- "4e7696f07a04e00b907d0f55a80aaa100808"
 set_entrez_key(api_key)
 
-
+# AWS S3 configuration ---------------------------------------------------------
+# Replace with your S3 bucket details
+s3_bucket <- "peitestbucket"
+s3_folder <- "1_pubmed_xml_responses/"
 
 
 # define query terms -------------------------------------------------------
@@ -105,14 +110,25 @@ fetch_pubmed_records <- function(year, query_terms) {
     rettype = "xml",
     parsed = TRUE)
 
-  # save to XML file with dynamic name based on date_range
-  file_name <- here("data/raw/1_pubmed_xml_responses",
-                    paste0("query_results_",
-                           year,
-                           ".xml"))
-  XML::saveXML(records, file_name)
-  message("Records fetched and saved successfully...sleeping 10 seconds...")
+
+  
+  
+  # Define file name for S3
+  s3_file_name <- paste0(s3_folder, "query_results_", year, ".xml")
+  
+  # Save XML data to a temporary file
+  temp_file <- tempfile(fileext = ".xml")
+  XML::saveXML(records, temp_file)
+  
+  # Upload to S3
+  put_object(file = temp_file, 
+             object = s3_file_name, 
+             bucket = s3_bucket)
+  
+  message(paste("Records for year", year, "saved successfully to S3...sleeping 10 seconds..."))
   Sys.sleep(10)
+  
+
 }
 
 
@@ -149,6 +165,7 @@ for (period in years_list) {
   fetch_pubmed_records(period, query_terms)
   
 }
-
+  # Clean up
+unlink(temp_file)  # Deletes the temporary file
 
 
